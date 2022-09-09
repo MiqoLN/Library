@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('ip');
             $table->string('uri');
             $table->string('user_agent');
-            $table->json('request');
+            $table->json('request')->nullable();
             $table->json('response');
             $table->timestamps();
         });

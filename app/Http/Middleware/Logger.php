@@ -25,28 +25,26 @@ class Logger
         return $exception;
     }
 
-    public function handle(Request $request, Closure $next)
+    private function wrapLog(Request $request,  $response) : array
     {
-        $response = $next($request);
         $log = array();
         $log['ip'] = $request->ip();
         $log['uri'] = $request->path();
         $log['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
         $log['request'] = json_encode($request->all());
-        if(isset($response->exception)) {
+        if(isset($response->exception))
             $log['response'] = json_encode($this->wrapException($response->exception));
-        }
         else
             $log['response'] = json_encode($response);
+        return $log;
+    }
 
-        Log::create([
-           'ip' => $log['ip'],
-           'uri' => $log['uri'],
-           'user_agent' => $log['user_agent'],
-           'request' => $log['request'],
-           'response' => $log['response'],
-        ]);
-
+    public function handle(Request $request, Closure $next)
+    {
+        $response = $next($request);
+        $log = $this->wrapLog($request,$response);
+        Log::create($log);
         return $response;
     }
 }
+

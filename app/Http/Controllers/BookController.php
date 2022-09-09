@@ -11,16 +11,14 @@ class BookController extends Controller
 {
     public function index(Request $request) : JsonResponse
     {
-        $books = new Book();
-        $data = $books->filter(strtolower($request->input('query')));
+        $data = Book::filter(strtolower($request->input('query')));
         if ($data == '404')
             return abort(404, 'Wrong query');
         return response()->json($data);
     }
     public function getId(int $id) : JsonResponse
     {
-        $books = new Book();
-        $book = $books->id($id);
+        $book = Book::id($id);
         if($book == '[]')
             return abort(404, 'Id not found');
         return response()->json($book);

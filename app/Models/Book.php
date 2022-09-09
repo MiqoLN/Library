@@ -19,16 +19,15 @@ class Book extends Model
         'updated_at',
     ];
 
-    public function filter(string $query)
-    {
+    public static function filter(string $query){
         return match ($query){
-          'mysql' => $this->get(),
+          'mysql' => self::get(),
           default => '404',
         };
     }
 
-    public function id(int $id){
-        return $this->where('id', $id)->get();
+    public static function id(int $id){
+        return self::where('id', $id)->get();
     }
 
 }
