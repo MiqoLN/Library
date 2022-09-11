@@ -27,7 +27,7 @@ class Book extends Model
     }
 
     public static function id(int $id){
-        return self::where('id', $id)->get();
+        return self::where('id', '=', $id)->get();
     }
 
 }

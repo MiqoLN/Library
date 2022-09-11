@@ -30,12 +30,14 @@ class Logger
         $log = array();
         $log['ip'] = $request->ip();
         $log['uri'] = $request->path();
-        $log['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
-        $log['request'] = json_encode($request->all());
-        if(isset($response->exception))
-            $log['response'] = json_encode($this->wrapException($response->exception));
-        else
-            $log['response'] = json_encode($response);
+        $log['user_agent'] = $request->userAgent();
+        $log['request'] = $request->all();
+        if(isset($response->exception)) {
+            $log['response'] = $this->wrapException($response->exception);
+        }
+        else {
+            $log['response'] = $response;
+        }
         return $log;
     }
 

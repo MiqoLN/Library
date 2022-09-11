@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\JsonCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,5 +20,10 @@ class Log extends Model
 
     protected $hidden = [
         'updated_at',
+    ];
+
+    protected $casts = [
+        'request' => JsonCast::class,
+        'response' => JsonCast::class,
     ];
 }
